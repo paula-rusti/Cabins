@@ -6,9 +6,11 @@
       <v-responsive>
         <v-row>
           <v-col cols="3">
-            <v-img :src=src
+            <v-img v-ripple="{ color: `text-primary` }"
+                   :src=src
                    cover
-                   style="border-radius: 50px;">
+                   style="border-radius: 50px;"
+            >
             </v-img>
           </v-col>
           <v-col cols="5">
