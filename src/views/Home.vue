@@ -4,7 +4,6 @@
       <v-row>
         <v-col cols="12">
           <home-carousel :slides="homePics"/>
-          <debug-logged-in class="mt-15"/>
         </v-col>
       </v-row>
 
@@ -30,12 +29,11 @@
 
 <script>
 import HomeCarousel from "@/components/HomeCarousel";
-import DebugLoggedIn from "@/components/DebugLoggedIn";
 import CabinCard from "@/components/CabinCard";
 
 export default {
   name: "Home",
-  components: {DebugLoggedIn, HomeCarousel, CabinCard},
+  components: {HomeCarousel, CabinCard},
   data() {
     return {
       homePics: [

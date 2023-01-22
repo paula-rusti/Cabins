@@ -9,7 +9,6 @@
           <pagination-controls :current-page-start="this.cabinsStore.currentPage"
                                :disable-next="isPaginationNextDisabled" @switchPage="onPageSwitched"/>
           <h1 v-if="loading">Loading
-            <!--            <v-img height="200px" src="@/assets/Hourglass.gif" width="200px"></v-img>-->
             <v-progress-linear
               color="green"
               indeterminate
@@ -17,6 +16,7 @@
           </h1>
           <div v-for="element in this.cabinsStore.cabins" v-if="!loading" class="pa-5">
             <cabin-card :description="element.description"
+                        :location="element.location"
                         :name="element.title"
                         :src="element.pictures[0]"
                         shortDescription="Come here for a quick relax"/>

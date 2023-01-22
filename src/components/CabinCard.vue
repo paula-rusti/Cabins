@@ -19,6 +19,7 @@
             </v-card-title>
             <v-card-subtitle>{{ shortDescription }}</v-card-subtitle>
             <v-card-text>{{ description }}</v-card-text>
+            <v-card-text>Location: {{ location }}</v-card-text>
           </v-col>
           <v-col cols="4">
             <v-card-actions>
@@ -60,6 +61,10 @@ export default {
       required: false
     },
     description: {
+      type: String,
+      required: false
+    },
+    location: {
       type: String,
       required: false
     },
