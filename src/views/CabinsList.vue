@@ -4,6 +4,7 @@
       <v-row>
         <v-col cols="4">
           <p class="text-h5">SEARCH</p>
+          <filter-cabins @filterChanged="this.fetchFilteredCabins"></filter-cabins>
         </v-col>
         <v-col cols="5">
           <pagination-controls :current-page-start="this.cabinsStore.currentPage"
@@ -46,10 +47,11 @@ import CabinCard from "@/components/CabinCard";
 import {mapActions, mapStores} from "pinia/dist/pinia";
 import {useCabinsStore} from "@/store/cabins";
 import PaginationControls from "@/components/PaginationControls";
+import FilterCabins from "@/components/FilterCabins";
 
 export default {
   name: "CabinsList",
-  components: {PaginationControls, CabinCard},
+  components: {FilterCabins, PaginationControls, CabinCard},
   data() {
     return {
       loading: false,
@@ -65,7 +67,7 @@ export default {
   },
   methods: {
     // gives access to this.fetchCabins()
-    ...mapActions(useCabinsStore, ['fetchCabins', 'setPage']),
+    ...mapActions(useCabinsStore, ['fetchCabins', 'setPage', 'filterCabins']),
 
     onPageSwitched(direction, currentPage) {
       console.log('page switch ', direction, currentPage)
@@ -74,12 +76,17 @@ export default {
       // update query param page from router
     },
     async fetchCabinsData() {
+      // fetch all the cabins
       this.loading = true;
       try {
         await this.fetchCabins()
       } finally {
         this.loading = false;
       }
+    },
+    async fetchFilteredCabins(values) {
+      // fetch only the filtered cabins
+      await this.filterCabins(values)
     }
   },
   async mounted() {

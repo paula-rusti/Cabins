@@ -17,6 +17,16 @@ export const useCabinsStore = defineStore('cabins', {
 
     setPage(pageNr) {
       this.currentPage = pageNr
+    },
+
+    async filterCabins(values) {
+      console.log('filtering cabins by the following values: ' + values)
+      let filterUrl = `http://localhost:3000/cabins?`
+      for (let loc in values) {
+        filterUrl += `location=${values[loc]}&`
+      }
+      const res = await fetch(filterUrl);
+      this.cabins = await res.json();
     }
   },
 })
