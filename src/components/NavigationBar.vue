@@ -22,6 +22,17 @@
       >
         Login
       </v-btn>
+
+      <v-btn
+        color="purple"
+        prepend-icon="mdi-home-account"
+        style="margin-right: 24px"
+        variant="outlined"
+        @click="userStore.login"
+      >
+        Owner?
+      </v-btn>
+
     </div>
     <v-btn
       v-if="userStore.isLoggedIn"
@@ -31,6 +42,7 @@
       variant="outlined"
     >
       DEBUG LOGGED IN
+
     </v-btn>
   </v-app-bar>
 </template>

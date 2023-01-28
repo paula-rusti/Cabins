@@ -18,8 +18,8 @@
           <div v-for="element in this.cabinsStore.cabins" v-if="!loading" class="pa-5">
             <cabin-card :description="element.description"
                         :location="element.location"
-                        :name="element.title"
-                        :src="element.pictures[0]"
+                        :name="element.name"
+                        :src="element.photos[0]"
                         shortDescription="Come here for a quick relax"/>
           </div>
         </v-col>
@@ -55,7 +55,6 @@ export default {
   data() {
     return {
       loading: false,
-      totalCabins: 10,
       cabinsOnPage: 2
     }
   },
@@ -67,7 +66,7 @@ export default {
   },
   methods: {
     // gives access to this.fetchCabins()
-    ...mapActions(useCabinsStore, ['fetchCabins', 'setPage', 'filterCabins']),
+    ...mapActions(useCabinsStore, ['fetchCabins', 'setPage', 'setItemsPerPage', 'filterCabins']),
 
     onPageSwitched(direction, currentPage) {
       console.log('page switch ', direction, currentPage)
@@ -92,6 +91,7 @@ export default {
   async mounted() {
     // get query param page from router; setPage with page; fetch
     // assume a dummy total number of cabins, and a dummy number of x cabins per page
+    this.setItemsPerPage(3)
     await this.fetchCabinsData()
   }
 }

@@ -5,18 +5,24 @@ export const useCabinsStore = defineStore('cabins', {
   state: () => ({
     cabins: [],
     currentPage: 1,
-    itemsPerPage: 5   // should normally be computed by knowing the value of total cabins from the api
+    itemsPerPage: undefined   // set by cabinsList
   }),
   actions: {
     async fetchCabins() {
-      const res = await fetch(`http://localhost:3000/cabins?_page=${this.currentPage}&_limit=${this.itemsPerPage}`);
+      const jsonServerURL = `http://localhost:3000/cabins?_page=${this.currentPage}&_limit=${this.itemsPerPage}`
+      const apiURL = `http://localhost:8000/cabins?page=${this.currentPage}&size=${this.itemsPerPage}`
+      const res = await fetch(apiURL);
       const finalRes = await res.json();
-      this.cabins = finalRes;
+      this.cabins = finalRes.items || [];
       console.log('done fetching ', this.cabins, 'on page ', this.currentPage)
     },
 
     setPage(pageNr) {
       this.currentPage = pageNr
+    },
+
+    setItemsPerPage(value) {
+      this.itemsPerPage = value
     },
 
     async filterCabins(values) {
