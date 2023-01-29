@@ -55,18 +55,19 @@ export default {
   data() {
     return {
       loading: false,
-      cabinsOnPage: 2
+      itemsPerPage: 3,
+      totalCabins: undefined,
     }
   },
   computed: {
     ...mapStores(useCabinsStore),
     isPaginationNextDisabled() {
-      return this.cabinsStore.cabins.length === 0
+      return this.cabinsStore.cabins.length === 0 || this.cabinsStore.currentPage > (this.totalCabins / this.itemsPerPage)
     }
   },
   methods: {
     // gives access to this.fetchCabins()
-    ...mapActions(useCabinsStore, ['fetchCabins', 'setPage', 'setItemsPerPage', 'filterCabins']),
+    ...mapActions(useCabinsStore, ['fetchCabins', 'setPage', 'setItemsPerPage', 'filterCabins', 'getCabinsCount']),
 
     onPageSwitched(direction, currentPage) {
       console.log('page switch ', direction, currentPage)
@@ -89,10 +90,10 @@ export default {
     }
   },
   async mounted() {
-    // get query param page from router; setPage with page; fetch
-    // assume a dummy total number of cabins, and a dummy number of x cabins per page
-    this.setItemsPerPage(3)
+    this.setItemsPerPage(this.itemsPerPage)
     await this.fetchCabinsData()
+    this.totalCabins = await this.getCabinsCount()
+    console.log(this.totalCabins)
   }
 }
 </script>

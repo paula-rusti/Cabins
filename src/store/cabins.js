@@ -9,6 +9,7 @@ export const useCabinsStore = defineStore('cabins', {
   }),
   actions: {
     async fetchCabins() {
+      console.log(`items per page ${this.itemsPerPage}`)
       const jsonServerURL = `http://localhost:3000/cabins?_page=${this.currentPage}&_limit=${this.itemsPerPage}`
       const apiURL = `http://localhost:8000/cabins?page=${this.currentPage}&size=${this.itemsPerPage}`
       const res = await fetch(apiURL);
@@ -33,6 +34,14 @@ export const useCabinsStore = defineStore('cabins', {
       }
       const res = await fetch(filterUrl);
       this.cabins = await res.json();
+    },
+
+    async getCabinsCount() {
+      // get total count of cabins from api
+      const apiURL = `http://localhost:8000/cabins/total`
+      const res = await fetch(apiURL);
+      const finalRes = await res.json();
+      return finalRes
     }
   },
 })
