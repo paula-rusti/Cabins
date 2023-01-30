@@ -2,11 +2,11 @@
   <v-container class="my-2">
     <v-responsive>
       <v-row>
-        <v-col cols="4">
+        <v-col cols="2">
           <p class="text-h5">SEARCH</p>
-          <filter-cabins @filterChanged="this.fetchFilteredCabins"></filter-cabins>
+          <filter-cabins @filterChanged="this.onFilterChanged"></filter-cabins>
         </v-col>
-        <v-col cols="5">
+        <v-col cols="8">
           <pagination-controls :current-page-start="this.cabinsStore.currentPage"
                                :disable-next="isPaginationNextDisabled" @switchPage="onPageSwitched"/>
           <h1 v-if="loading">Loading
@@ -23,9 +23,9 @@
                         shortDescription="Come here for a quick relax"/>
           </div>
         </v-col>
-        <v-col cols="3">
-          <p class="text-h5">EMPTY space</p>
-        </v-col>
+        <!--        <v-col cols="3">-->
+        <!--          <p class="text-h5">EMPTY space</p>-->
+        <!--        </v-col>-->
       </v-row>
       <!--   pagination controls   -->
       <v-row align="center" justify="center">
@@ -67,7 +67,8 @@ export default {
   },
   methods: {
     // gives access to this.fetchCabins()
-    ...mapActions(useCabinsStore, ['fetchCabins', 'setPage', 'setItemsPerPage', 'filterCabins', 'getCabinsCount']),
+    ...mapActions(useCabinsStore, ['fetchCabins', 'setPage', 'setItemsPerPage', 'filterCabins', 'getCabinsCount'
+      , 'setFilterList']),
 
     onPageSwitched(direction, currentPage) {
       console.log('page switch ', direction, currentPage)
@@ -84,8 +85,9 @@ export default {
         this.loading = false;
       }
     },
-    async fetchFilteredCabins(values) {
+    async onFilterChanged(values) {
       // fetch only the filtered cabins
+      this.setFilterList(values)
       await this.filterCabins(values)
     }
   },

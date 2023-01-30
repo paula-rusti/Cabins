@@ -26,6 +26,12 @@ const routes = [
         name: 'Cabin Details',
         props: true,
         component: () => import('@/views/CabinDetails.vue'),
+      },
+      {
+        path: 'testApiClient',
+        name: 'Api Client Test',
+        props: true,
+        component: () => import('@/views/ApiClientTest.vue')
       }
     ],
   },
