@@ -19,8 +19,8 @@
             <cabin-card :description="element.description"
                         :location="element.location"
                         :name="element.name"
-                        :src="element.photos[0]"
-                        shortDescription="Come here for a quick relax"/>
+                        :price="element.price"
+                        :src="element.photos[0]"/>
           </div>
         </v-col>
         <!--        <v-col cols="3">-->
@@ -88,7 +88,7 @@ export default {
     async onFilterChanged(values) {
       // fetch only the filtered cabins
       this.setFilterList(values)
-      await this.filterCabins(values)
+      await this.fetchCabinsData()
     }
   },
   async mounted() {

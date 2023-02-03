@@ -4,6 +4,14 @@
   <br/>
   <br/>
   <v-btn @click="onFetchCabins({page: 1, size: 2, location: ['Cluj', 'Maramures']})">Fetch Cabins From Cluj</v-btn>
+  <v-alert v-if="errorFetching"
+           border="right"
+           colored-border
+           elevation="2"
+           type="error"
+  >
+    {{ errorMessage }}
+  </v-alert>
 </template>
 
 <script>
@@ -11,10 +19,21 @@ import ApiClient from "@/services/ApiClient";
 
 export default {
   name: "ApiClientTest",
+  data() {
+    return {
+      errorFetching: false,
+      errorMessage: ""
+    }
+  },
   methods: {
     async onFetchCabins(params) {
-      let cabins = await ApiClient.fetchCabins(params)
-      console.log("cabins are: ", cabins)
+      try {
+        let cabins = await ApiClient.fetchCabinsData(params)
+        console.log("cabins are: ", cabins)
+      } catch (e) {
+        this.errorFetching = true
+        this.errorMessage = e.message
+      }
     }
   }
 }

@@ -17,9 +17,9 @@
             <v-card-title class="align-content-right text-h5" href="https://www.stackoverflow.com">
               {{ name }}
             </v-card-title>
-            <v-card-subtitle>{{ shortDescription }}</v-card-subtitle>
-            <v-card-text>{{ description }}</v-card-text>
+            <v-card-text>Description: {{ description }}</v-card-text>
             <v-card-text>Location: {{ location }}</v-card-text>
+            <v-card-text>Price: {{ price }}</v-card-text>
           </v-col>
           <v-col cols="4">
             <v-card-actions>
@@ -56,16 +56,16 @@ export default {
       type: String,
       required: true  // required bcs the explore button's redirection has a param whose value is linked to the same property
     },
-    shortDescription: {
-      type: String,
-      required: false
-    },
     description: {
       type: String,
       required: false
     },
     location: {
       type: String,
+      required: false
+    },
+    price: {
+      type: Number,
       required: false
     },
     src: {
