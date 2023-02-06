@@ -7,8 +7,7 @@
           <filter-cabins @filterChanged="this.onFilterChanged"></filter-cabins>
         </v-col>
         <v-col cols="8">
-          <pagination-controls :current-page-start="this.cabinsStore.currentPage"
-                               :disable-next="isPaginationNextDisabled" @switchPage="onPageSwitched"/>
+
           <h1 v-if="loading">Loading
             <v-progress-linear
               color="green"
@@ -20,14 +19,30 @@
                         :location="element.location"
                         :name="element.name"
                         :price="element.price"
-                        :src="element.photos[0]"/>
+                        :src="element.src"/>
           </div>
         </v-col>
-        <!--        <v-col cols="3">-->
-        <!--          <p class="text-h5">EMPTY space</p>-->
-        <!--        </v-col>-->
       </v-row>
-      <!--   pagination controls   -->
+
+      <v-snackbar
+        v-model="snackbar.active"
+        :timeout="snackbar.timeout"
+        location="top"
+      >
+        {{ snackbar.text }}
+
+        <template v-slot:action="{ attrs }">
+          <v-btn
+            color="blue"
+            text
+            v-bind="attrs"
+            @click="snackbar = false"
+          >
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
+
       <v-row align="center" justify="center">
         <v-col align="center" cols="12" justify="center">
           <div class="pa-5">
@@ -57,6 +72,11 @@ export default {
       loading: false,
       itemsPerPage: 3,
       totalCabins: undefined,
+      snackbar: {
+        active: false,
+        text: 'My timeout is set to 2000.',
+        timeout: 2000,
+      }
     }
   },
   computed: {
@@ -67,13 +87,13 @@ export default {
   },
   methods: {
     // gives access to this.fetchCabins()
-    ...mapActions(useCabinsStore, ['fetchCabins', 'setPage', 'setItemsPerPage', 'filterCabins', 'getCabinsCount'
+    ...mapActions(useCabinsStore, ['fetchCabins', 'setPage', 'setItemsPerPage', 'getCabinsCount'
       , 'setFilterList']),
 
     onPageSwitched(direction, currentPage) {
       console.log('page switch ', direction, currentPage)
-      this.setPage(currentPage)
-      this.fetchCabinsData()
+      this.setPage(currentPage)   // set page in the store
+      this.fetchCabinsData()      // use router function to get data from api
       // update query param page from router
     },
     async fetchCabinsData() {
@@ -81,6 +101,9 @@ export default {
       this.loading = true;
       try {
         await this.fetchCabins()
+      } catch (e) {
+        this.snackbar.active = true
+        this.snackbar.text = e.message
       } finally {
         this.loading = false;
       }

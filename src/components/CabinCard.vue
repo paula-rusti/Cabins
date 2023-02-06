@@ -9,7 +9,7 @@
             <v-img v-ripple="{ color: `text-primary` }"
                    :src=src
                    cover
-                   style="border-radius: 50px;"
+                   style="border-radius: 50px; height: 237px"
             >
             </v-img>
           </v-col>
