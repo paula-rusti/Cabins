@@ -2,12 +2,75 @@
   <v-container class="my-2">
     <v-responsive>
       <v-row>
-        <v-col cols="2">
+        <v-col class="ma-2" cols="2">
           <p class="text-h5">SEARCH</p>
           <filter-cabins @filterChanged="this.onFilterChanged"></filter-cabins>
-        </v-col>
-        <v-col cols="8">
+          <v-card color="pink">
+            <v-card-title class="pb-5">SEARCH</v-card-title>
+            <v-card-actions>
+              <v-row>
+                <v-col class="py-0" cols="12">
+                  <v-text-field bg-color="white" class="ps-2" label="Country/City/Property name"
+                                prepend-inner-icon="mdi-magnify"></v-text-field>
+                </v-col>
+                <v-col class="py-0 pb-5" cols="12">
+                  <Datepicker v-model="this.search.dates"
+                              :clearable="true"
+                              :enable-time-picker="false"
+                              :min-date="new Date()"
+                              class="ps-2"
+                              no-disabled-range
+                              placeholder="Check In - Check Out"
+                              range>
 
+                  </Datepicker>
+                </v-col>
+                <v-col class="py-0" cols="12">
+                  <v-text-field bg-color="white" class="ps-2" label="Number of Guests" prepend-inner-icon="mdi-magnify">
+                  </v-text-field>
+                </v-col>
+              </v-row>
+            </v-card-actions>
+          </v-card>
+          <v-card class="mt-5">
+            <v-card-title>Filter By</v-card-title>
+            <v-list>
+              <v-list-subheader>AVAILABLE FACILITIES</v-list-subheader>
+
+              <v-list-item
+                v-for="(item, i) in ['Spa', 'Indoor Pool', 'Candy Bar']"
+                :key="i"
+                :value="item"
+                active-color="primary"
+                height="50px"
+                rounded="xl"
+              >
+                <template v-slot:prepend>
+                  <v-checkbox :label="item"></v-checkbox>
+                </template>
+              </v-list-item>
+
+              <v-list-subheader class="mt-4">STAR RATING</v-list-subheader>
+
+              <v-list-item
+                v-for="(item, i) in ['1 star', '2 stars', '3 stars', '1 star', '2 stars', '3 stars']"
+                :key="i"
+                :value="item"
+                active-color="primary"
+                height="50px"
+                rounded="xl"
+              >
+                <template v-slot:prepend>
+                  <v-checkbox :label="item"></v-checkbox>
+                </template>
+              </v-list-item>
+            </v-list>
+
+          </v-card>
+        </v-col>
+
+
+        <v-col cols="8">
           <h1 v-if="loading">Loading
             <v-progress-linear
               color="green"
@@ -65,9 +128,12 @@ import {useCabinsStore} from "@/store/cabins";
 import PaginationControls from "@/components/PaginationControls";
 import FilterCabins from "@/components/FilterCabins";
 
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
+
 export default {
   name: "CabinsList",
-  components: {FilterCabins, PaginationControls, CabinCard},
+  components: {FilterCabins, PaginationControls, CabinCard, Datepicker},
   data() {
     return {
       loading: false,
@@ -77,6 +143,9 @@ export default {
         active: false,
         text: 'My timeout is set to 2000.',
         timeout: 2000,
+      },
+      search: {
+        dates: {}
       }
     }
   },
@@ -127,5 +196,9 @@ export default {
 <style>
 .pad {
   padding: 100px;
+}
+
+.dp__input {
+  height: 54px;
 }
 </style>
