@@ -1,38 +1,40 @@
 <template>
   <v-container class="mt-4">
-    <v-row style="margin-left: 15%; margin-right: 15%">
+    <v-row>
       <v-col cols="12">
-        <div style="font-size: 25px; font-weight: bold; height: 50px">Seaside Villa Stockholm Archipelago</div>
-        <div style="font-size: 20px; height: 50px">
-          <v-icon icon="mdi-map-marker"></v-icon>
-          <span class="mr-10">Vaxholm, Stockholm County, Sweden</span>
-          <v-icon icon="mdi-star"></v-icon>
-          5.0
+        <h1>Seaside Villa Stockholm Archipelago</h1>
+      </v-col>
+      <v-col class="text-h5 v-col-md-6 v-col-sm-12 v-col-xs-12">
+        <div class="align-end">
+          <h4><v-icon icon="mdi-map-marker"></v-icon> Vaxholm, Stockholm County, Sweden</h4>
         </div>
-        <div style=" height: 50px">
-          Photo Gallery
-        </div>
-        <v-row justify="center">
-          <v-col class="center-content">
-            <lightgallery
-              :onBeforeSlide="onBeforeSlide"
-              :onInit="onInit"
-              :settings="lightGallerySettings2"
-              class="light-gallery-style scroll-style-5"
-            >
-              <a v-for="(src, i) of images" :key="i" :href="src">
-                <img :src="src" alt="img" class="img_style "/>
-              </a>
-            </lightgallery>
-          </v-col>
-        </v-row>
-        <v-row class="pa-3">
+      </v-col>
+      <v-col cols="6" class="text-h5 v-col-md-6 v-col-sm-12 v-col-xs-12">
+        <v-icon icon="mdi-star"></v-icon>
+        Rating: 5.0
+      </v-col>
+      <v-col cols="12">
+        <h2>Photo Gallery</h2>
+      </v-col>
+      <v-col cols="12">
+          <lightgallery
+            :onBeforeSlide="onBeforeSlide"
+            :onInit="onInit"
+            :settings="lightGallerySettings"
+            class="d-flex flex-row flex-wrap align-start justify-start"
+          >
+            <a class="gallery-item" v-for="(src, i) of images" :key="i" :href="src">
+              <img :src="src" alt="img"/>
+            </a>
+          </lightgallery>
+      </v-col>
+      <v-col cols="12">
           <h3>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
             industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
             and scrambled it to make a type specimen book.</h3>
-        </v-row>
+      </v-col>
         <v-row>
-          <v-col cols="4">
+          <v-col class="v-col-md-4 v-col-sm-12 v-col-xs-12">
             <v-card class="card-style">
               <v-card-item>
                 <v-card-title>Cabin Info</v-card-title>
@@ -67,7 +69,7 @@
             </v-card>
           </v-col>
 
-          <v-col cols="4">
+          <v-col class="v-col-md-4 v-col-sm-12 v-col-xs-12">
             <v-card class="card-style">
               <v-card-item>
                 <v-card-title>Facilities</v-card-title>
@@ -98,7 +100,7 @@
             </v-card>
           </v-col>
 
-          <v-col cols="4">
+          <v-col class="v-col-md-4 v-col-sm-12 v-col-xs-12">
             <v-card>
               <v-card-title>Book Now!</v-card-title>
               <v-card-subtitle>At only ${{ this.cabin.price }} per night</v-card-subtitle>
@@ -138,13 +140,14 @@
             </v-card>
           </v-col>
         </v-row>
-        <v-divider style="margin-top: 30px; padding-bottom: 10px"></v-divider>
+        <v-divider class="py-3"></v-divider>
+        <!--      Host Information-->
         <v-row>
-          <v-col cols="7">
+          <v-col cols="7" class="v-col-md-7 v-col-xs-12 v-col-sm-12">
             <v-card variant="flat">
               <v-card-title style="font-size: 30px !important;">Host Information</v-card-title>
-              <v-row style="margin-top: 10px">
-                <v-col cols="1" style="margin-left: 20px">
+              <v-row class="mt-1">
+                <v-col cols="2" class="v-col-lg-2 v-col-md-2 v-col-xs-6 v-col-sm-6">
                   <v-avatar
                     size="80px"
                   >
@@ -154,15 +157,12 @@
                     ></v-img>
                   </v-avatar>
                 </v-col>
-                <v-col cols="2">
+                <v-col cols="2" class="v-col-lg-2 v-col-md-3 v-col-xs-6 v-col-sm-6">
                   <v-card-text style="font-size: 20px !important; padding-top: 0">Darth Vader</v-card-text>
                   <v-card-text class="pt-0" style="font-size: 15px !important;">Joined in July 2020</v-card-text>
                 </v-col>
-                <v-col cols="4">
-                  <v-row style="padding-top: 16px">
-                    <v-icon icon="mdi-shield-check" style="margin-right: 10px;"></v-icon>
-                    <div>Identity Verified</div>
-                  </v-row>
+                <v-col cols="4" class="v-col-lg-4 v-col-md-4 v-col-xs-12 v-col-sm-12">
+                    <div><v-icon icon="mdi-shield-check"></v-icon> Identity Verified</div>
                 </v-col>
               </v-row>
               <v-row>
@@ -177,8 +177,8 @@
               </v-row>
             </v-card>
           </v-col>
-          <v-col cols="5">
-            <v-card style="margin-top: 30px; margin-right: 60px" variant="tonal">
+          <v-col cols="5" class="v-col-md-5 v-col-xs-12 v-col-sm-12">
+            <v-card class="mt-3 px-5" variant="tonal">
               <v-card-title style="font-size: 20px">Contact Information</v-card-title>
               <v-card-text style="font-size: 18px">Email: email@example.com</v-card-text>
               <v-card-text class="pt-0" style="font-size: 18px">Phone: 0736382028</v-card-text>
@@ -186,7 +186,8 @@
             </v-card>
           </v-col>
         </v-row>
-        <v-divider style="margin-top: 30px; padding-bottom: 10px"></v-divider>
+        <v-divider class="py-4"></v-divider>
+      <v-col cols="12">
         <v-row>
           <v-col cols="12">
             <p>
@@ -195,11 +196,10 @@
               <span class="pr-2">10</span>
               <span>reviews</span>
             </p>
-
           </v-col>
         </v-row>
         <v-row>
-          <v-col v-for="i in 2" cols="6">
+          <v-col v-for="i in 2" cols="6" class="v-col-md-6 v-col-sm-12 v-col-xs-12">
             <v-card>
               <v-list-item class="w-100 mt-5">
                 <template v-slot:prepend>
@@ -282,22 +282,20 @@ export default {
         disabled_dates: [],
         nights: 0
       },
-      lightGallerySettings2: {
-        plugins: [lgThumbnail, lgZoom],
-        speed: 500,
-        thumbnail: true,
-        allowMediaOverlap: true,
-        toggleThumb: true,
-        appendThumbnailsTo: '.lg-outer'
-      },
-      // data properties de cand am developat pagina pe home
       lightGallerySettings: {
         plugins: [lgThumbnail, lgZoom],
         speed: 500,
         thumbnail: true,
-        allowMediaOverlap: true,
+        autoplayFirstVideo: false,
+        pager: false,
+        allowMediaOverlap: false,
         toggleThumb: true,
-        appendThumbnailsTo: '.lg-outer'
+        mobileSettings: {
+          controls: false,
+          showCloseIcon: false,
+          download: false,
+          rotate: false
+        }
       },
       facilitiesButtonPressed: false,
       facilitiesButtonText: "Show More",
@@ -384,38 +382,24 @@ export default {
 @import 'lightgallery/css/lg-thumbnail.css';
 @import 'lightgallery/css/lg-zoom.css';
 
-.img_style {
-  margin: 10px;
-  display: inline;
-  height: 250px;
-  width: 350px;
-  border-radius: 10px;
-}
-
 .reserve-card-sticky {
   position: fixed !important;
   right: 10%;
 }
 
-.center-content {
-  display: flex;
-  justify-content: center;
+.invisible-gallery-item {
+  width: 0px;
+  height: 0px;
+  display: none;
+  visibility: hidden;
 }
 
-.light-gallery-style {
-  max-width: 1300px;
-  max-height: 450px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-
-.img_style {
-  margin: 10px;
-  display: inline;
+.gallery-item {
   height: 200px;
-  width: 200px;
-  border-radius: 20px;
+  padding: 5px;
+  display: flex;
 }
+
 
 .card-style {
   background-color: aliceblue !important;
