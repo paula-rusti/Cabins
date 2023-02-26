@@ -4,12 +4,15 @@
       <v-col cols="12">
         <h1>Seaside Villa Stockholm Archipelago</h1>
       </v-col>
-      <v-col class="text-h5 v-col-md-6 v-col-sm-12 v-col-xs-12">
+      <v-col class="text-h5 v-col-md-6 v-col-sm-12 v-col-xs-12" cols="12">
         <div class="align-end">
-          <h4><v-icon icon="mdi-map-marker"></v-icon> Vaxholm, Stockholm County, Sweden</h4>
+          <h4>
+            <v-icon icon="mdi-map-marker"></v-icon>
+            Vaxholm, Stockholm County, Sweden
+          </h4>
         </div>
       </v-col>
-      <v-col cols="6" class="text-h5 v-col-md-6 v-col-sm-12 v-col-xs-12">
+      <v-col class="text-h5 v-col-md-6 v-col-sm-12 v-col-xs-12" cols="12">
         <v-icon icon="mdi-star"></v-icon>
         Rating: 5.0
       </v-col>
@@ -17,176 +20,179 @@
         <h2>Photo Gallery</h2>
       </v-col>
       <v-col cols="12">
-          <lightgallery
-            :onBeforeSlide="onBeforeSlide"
-            :onInit="onInit"
-            :settings="lightGallerySettings"
-            class="d-flex flex-row flex-wrap align-start justify-start"
-          >
-            <a class="gallery-item" v-for="(src, i) of images" :key="i" :href="src">
-              <img :src="src" alt="img"/>
-            </a>
-          </lightgallery>
+        <lightgallery
+          :onBeforeSlide="onBeforeSlide"
+          :onInit="onInit"
+          :settings="lightGallerySettings"
+          class="d-flex flex-row flex-wrap align-start justify-start"
+        >
+          <a v-for="(src, i) of images" :key="i" :href="src" class="gallery-item">
+            <img :src="src" alt="img"/>
+          </a>
+        </lightgallery>
       </v-col>
       <v-col cols="12">
-          <h3>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book.</h3>
+        <h3>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
+          and scrambled it to make a type specimen book.</h3>
       </v-col>
-        <v-row>
-          <v-col class="v-col-md-4 v-col-sm-12 v-col-xs-12">
-            <v-card class="card-style">
-              <v-card-item>
-                <v-card-title>Cabin Info</v-card-title>
-                <v-card-subtitle>Cabin's internal organization</v-card-subtitle>
-              </v-card-item>
+      <v-row>
+        <v-col class="v-col-md-4 v-col-sm-12 v-col-xs-12" cols="12">
+          <v-card class="card-style">
+            <v-card-item>
+              <v-card-title>Cabin Info</v-card-title>
+              <v-card-subtitle>Cabin's internal organization</v-card-subtitle>
+            </v-card-item>
 
-              <v-list
-                :lines="false"
-                density="compact"
-                nav
-                style="background-color: cornflowerblue"
-              >
-                <v-list-item
-                  v-for="(item, i) in [{ title: 'Rooms', icon: 'mdi-sofa', value: 3 },
+            <v-list
+              :lines="false"
+              density="compact"
+              nav
+              style="background-color: cornflowerblue"
+            >
+              <v-list-item
+                v-for="(item, i) in [{ title: 'Rooms', icon: 'mdi-sofa', value: 3 },
                                         { title: 'Bathrooms', icon: 'mdi-shower-head', value: 3 },
                                         { title: 'Beds', icon: 'mdi-bed', value: 3 },
                                         { title: 'Fits', icon: 'mdi-account', value: 3 }
                                       ]"
-                  :key="i"
-                  :value="item"
-                  active-color="primary"
-                >
-                  <template v-slot:prepend>
-                    <v-icon :icon="item.icon"></v-icon>
-                  </template>
-
-                  <v-list-item-title
-                    v-text="`${item.title}: ${item.value}`">
-                  </v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-card>
-          </v-col>
-
-          <v-col class="v-col-md-4 v-col-sm-12 v-col-xs-12">
-            <v-card class="card-style">
-              <v-card-item>
-                <v-card-title>Facilities</v-card-title>
-                <v-card-subtitle>What this place offers</v-card-subtitle>
-              </v-card-item>
-              <v-list
-                :lines="false"
-                density="compact"
-                nav
+                :key="i"
+                :value="item"
+                active-color="primary"
               >
-                <v-list-item
-                  v-for="(item, i) in this.facilities.slice(0, this.facilitiesToShow)"
-                  :key="i"
-                  :value="item"
-                  active-color="primary"
-                >
-                  <template v-slot:prepend>
-                    <v-icon :icon="item.icon"></v-icon>
-                  </template>
+                <template v-slot:prepend>
+                  <v-icon :icon="item.icon"></v-icon>
+                </template>
 
-                  <v-list-item-title v-text="item.text"></v-list-item-title>
-                  <v-list-item-subtitle>aaa</v-list-item-subtitle>
-                </v-list-item>
-              </v-list>
-              <v-card-actions>
-                <v-btn @click="toggleFacilitiesButton">{{ this.facilitiesButtonText }}</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
+                <v-list-item-title
+                  v-text="`${item.title}: ${item.value}`">
+                </v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-col>
 
-          <v-col class="v-col-md-4 v-col-sm-12 v-col-xs-12">
-            <v-card>
-              <v-card-title>Book Now!</v-card-title>
-              <v-card-subtitle>At only ${{ this.cabin.price }} per night</v-card-subtitle>
-              <v-card-actions>
-                <v-row>
-                  <v-col cols="12">
-                    <v-card-item class="pa-0">
-                      <Datepicker v-model="this.reserve_data.selected_dates" :clearable="true"
-                                  :disabled-dates="this.reserve_data.disabled_dates"
-                                  :enable-time-picker="false"
-                                  :min-date="new Date()"
-                                  :partial-range="false"
-                                  no-disabled-range
-                                  placeholder="Check In - Check Out"
-                                  range
-                                  style="width: 400px"
-                                  @update:model-value="onDateUpdated">
-                      </Datepicker>
-                    </v-card-item>
-                    <v-card-item class="pl-0">
-                      <v-btn
-                        append-icon="mdi-airplane-clock"
-                        color="purple"
-                        style="background-color: antiquewhite; width: 400px"
-                        @click="onReservePressed"
-                      >
-                        Reserve
-                      </v-btn>
-                    </v-card-item>
-                    <v-divider></v-divider>
-                    <v-card-item>${{ this.cabin.price }} x {{ this.reserve_data.nights }} nights</v-card-item>
-                    <v-card-item class="mt-0">Total Price: ${{ this.totalPrice }}</v-card-item>
-                  </v-col>
-                </v-row>
+        <v-col class="v-col-md-4 v-col-sm-12 v-col-xs-12" cols="12">
+          <v-card class="card-style">
+            <v-card-item>
+              <v-card-title>Facilities</v-card-title>
+              <v-card-subtitle>What this place offers</v-card-subtitle>
+            </v-card-item>
+            <v-list
+              :lines="false"
+              density="compact"
+              nav
+            >
+              <v-list-item
+                v-for="(item, i) in this.facilities.slice(0, this.facilitiesToShow)"
+                :key="i"
+                :value="item"
+                active-color="primary"
+              >
+                <template v-slot:prepend>
+                  <v-icon :icon="item.icon"></v-icon>
+                </template>
 
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-        <v-divider class="py-3"></v-divider>
-        <!--      Host Information-->
-        <v-row>
-          <v-col cols="7" class="v-col-md-7 v-col-xs-12 v-col-sm-12">
-            <v-card variant="flat">
-              <v-card-title style="font-size: 30px !important;">Host Information</v-card-title>
-              <v-row class="mt-1">
-                <v-col cols="2" class="v-col-lg-2 v-col-md-2 v-col-xs-6 v-col-sm-6">
-                  <v-avatar
-                    size="80px"
-                  >
-                    <v-img
-                      alt="Avatar"
-                      src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460"
-                    ></v-img>
-                  </v-avatar>
-                </v-col>
-                <v-col cols="2" class="v-col-lg-2 v-col-md-3 v-col-xs-6 v-col-sm-6">
-                  <v-card-text style="font-size: 20px !important; padding-top: 0">Darth Vader</v-card-text>
-                  <v-card-text class="pt-0" style="font-size: 15px !important;">Joined in July 2020</v-card-text>
-                </v-col>
-                <v-col cols="4" class="v-col-lg-4 v-col-md-4 v-col-xs-12 v-col-sm-12">
-                    <div><v-icon icon="mdi-shield-check"></v-icon> Identity Verified</div>
-                </v-col>
-              </v-row>
+                <v-list-item-title v-text="item.text"></v-list-item-title>
+                <v-list-item-subtitle>aaa</v-list-item-subtitle>
+              </v-list-item>
+            </v-list>
+            <v-card-actions>
+              <v-btn @click="toggleFacilitiesButton">{{ this.facilitiesButtonText }}</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+
+        <v-col class="v-col-md-4 v-col-sm-12 v-col-xs-12">
+          <v-card>
+            <v-card-title>Book Now!</v-card-title>
+            <v-card-subtitle>At only ${{ this.cabin.price }} per night</v-card-subtitle>
+            <v-card-actions>
               <v-row>
-                <v-col cols="10">
-                  <v-card-text style="font-size: 18px !important;">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                    industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
-                    and
-                    scrambled it to make a type specimen book.
-                  </v-card-text>
+                <v-col cols="12">
+                  <v-card-item class="pa-0">
+                    <Datepicker v-model="this.reserve_data.selected_dates" :clearable="true"
+                                :disabled-dates="this.reserve_data.disabled_dates"
+                                :enable-time-picker="false"
+                                :min-date="new Date()"
+                                :partial-range="false"
+                                no-disabled-range
+                                placeholder="Check In - Check Out"
+                                range
+                                style="width: 400px"
+                                @update:model-value="onDateUpdated">
+                    </Datepicker>
+                  </v-card-item>
+                  <v-card-item class="pl-0">
+                    <v-btn
+                      append-icon="mdi-airplane-clock"
+                      color="purple"
+                      style="background-color: antiquewhite; width: 400px"
+                      @click="onReservePressed"
+                    >
+                      Reserve
+                    </v-btn>
+                  </v-card-item>
+                  <v-divider></v-divider>
+                  <v-card-item>${{ this.cabin.price }} x {{ this.reserve_data.nights }} nights</v-card-item>
+                  <v-card-item class="mt-0">Total Price: ${{ this.totalPrice }}</v-card-item>
                 </v-col>
               </v-row>
-            </v-card>
-          </v-col>
-          <v-col cols="5" class="v-col-md-5 v-col-xs-12 v-col-sm-12">
-            <v-card class="mt-3 px-5" variant="tonal">
-              <v-card-title style="font-size: 20px">Contact Information</v-card-title>
-              <v-card-text style="font-size: 18px">Email: email@example.com</v-card-text>
-              <v-card-text class="pt-0" style="font-size: 18px">Phone: 0736382028</v-card-text>
-              <v-card-text class="pt-0" style="font-size: 18px">Facebook: Darth Vader</v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-        <v-divider class="py-4"></v-divider>
+
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-divider class="py-3"></v-divider>
+      <!--      Host Information-->
+      <v-row>
+        <v-col class="v-col-md-7 v-col-xs-12 v-col-sm-12" cols="12">
+          <v-card variant="flat">
+            <v-card-title style="font-size: 30px !important;">Host Information</v-card-title>
+            <v-row class="mt-1">
+              <v-col class="v-col-lg-2 v-col-md-2 v-col-xs-6 v-col-sm-6" cols="6">
+                <v-avatar
+                  size="80px"
+                >
+                  <v-img
+                    alt="Avatar"
+                    src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460"
+                  ></v-img>
+                </v-avatar>
+              </v-col>
+              <v-col class="v-col-lg-2 v-col-md-3 v-col-xs-6 v-col-sm-6" cols="6">
+                <v-card-text style="font-size: 20px !important; padding-top: 0">Darth Vader</v-card-text>
+                <v-card-text class="pt-0" style="font-size: 15px !important;">Joined in July 2020</v-card-text>
+              </v-col>
+              <v-col class="v-col-lg-4 v-col-md-4 v-col-xs-12 v-col-sm-12" cols="12">
+                <div>
+                  <v-icon icon="mdi-shield-check"></v-icon>
+                  Identity Verified
+                </div>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="10">
+                <v-card-text style="font-size: 18px !important;">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                  industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
+                  and
+                  scrambled it to make a type specimen book.
+                </v-card-text>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+        <v-col class="v-col-md-5 v-col-xs-12 v-col-sm-12" cols="12">
+          <v-card class="mt-3 px-5" variant="tonal">
+            <v-card-title style="font-size: 20px">Contact Information</v-card-title>
+            <v-card-text style="font-size: 18px">Email: email@example.com</v-card-text>
+            <v-card-text class="pt-0" style="font-size: 18px">Phone: 0736382028</v-card-text>
+            <v-card-text class="pt-0" style="font-size: 18px">Facebook: Darth Vader</v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-divider class="py-4"></v-divider>
       <v-col cols="12">
         <v-row>
           <v-col cols="12">
@@ -199,7 +205,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col v-for="i in 2" cols="6" class="v-col-md-6 v-col-sm-12 v-col-xs-12">
+          <v-col v-for="i in 2" class="v-col-md-6 v-col-sm-12 v-col-xs-12" cols="12">
             <v-card>
               <v-list-item class="w-100 mt-5">
                 <template v-slot:prepend>
