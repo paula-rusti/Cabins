@@ -31,6 +31,7 @@
                   name: 'Cabin Details',
                   params: {
                     url_slug: name,
+                    cabin_id: id
                   },
                   query: {
                     start_date: '2020-12-01'
@@ -52,6 +53,10 @@
 export default {
   name: "CabinCard",
   props: {
+    id: {
+      type: Number,
+      required: true
+    },
     name: {
       type: String,
       required: true  // required bcs the explore button's redirection has a param whose value is linked to the same property

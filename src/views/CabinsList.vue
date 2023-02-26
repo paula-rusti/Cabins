@@ -15,7 +15,8 @@
             ></v-progress-linear>
           </h1>
           <div v-for="element in this.cabinsStore.cabins" v-if="!loading" class="pa-5">
-            <cabin-card :description="element.description"
+            <cabin-card :id="Number(element.id)"
+                        :description="element.description"
                         :location="element.location"
                         :name="element.name"
                         :price="element.price"

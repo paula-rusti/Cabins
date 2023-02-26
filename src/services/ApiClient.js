@@ -12,6 +12,22 @@ class ApiClient {
     }
   }
 
+  getPhotoUrl(id) {
+    let fetchUrl = url + `/photos/${id}`;
+    return fetchUrl;
+  }
+
+  async fetchCabinById(id) {
+    const route = "/cabins/" + id;
+    let fetchUrl = url + route;
+    try {
+      const fetchResponse = await fetch(fetchUrl);
+      return await this.unwrapResponseData(fetchResponse);
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  }
+
   async fetchPhotosOfCabin(id) {
     const route = `/photos/cabin/${id}`;
     let fetchUrl = url + route;
@@ -52,4 +68,4 @@ class ApiClient {
   }
 }
 
-export default new ApiClient()
+export default new ApiClient();

@@ -16,19 +16,7 @@ export const useCabinsStore = defineStore("cabins", {
         size: this.itemsPerPage,
         location: this.location_filter_list,
       });
-      // finalRes.items.forEach((e) => {
-      //   ApiClient.fetchPhotosOfCabin(e.id)
-      //     .then((r) => {
-      //       e.photos = r;
-      //       e.src = `http://localhost:8000/photos/${r[0].id}`;
-      //     })
-      //     .catch((error) => {
-      //       console.log(error);
-      //       e.photos = [];
-      //       e.src = "";
-      //       global_error = error;
-      //     });
-      // });
+
       for (let item of finalRes.items) {
         item.photos = await ApiClient.fetchPhotosOfCabin(item.id);
         if (item.photos.length !== 0) {
@@ -39,6 +27,15 @@ export const useCabinsStore = defineStore("cabins", {
       }
       this.cabins = finalRes.items || [];
       console.log("done fetching ", this.cabins, "on page ", this.currentPage);
+    },
+
+    async getCabinById(id) {
+      // fetch
+      return await ApiClient.fetchCabinById(id);
+    },
+
+    async getPhotosOfCabin(id) {
+      return await ApiClient.fetchPhotosOfCabin(id);
     },
 
     setFilterList(values) {
@@ -55,7 +52,7 @@ export const useCabinsStore = defineStore("cabins", {
 
     async getCabinsCount() {
       // get total count of cabins from api
-      const apiURL = `http://localhost:8000/cabins/total`;
+      const apiURL = `http://localhost:8000/cabins/count`;
       const res = await fetch(apiURL);
       const finalRes = await res.json();
       return finalRes;
