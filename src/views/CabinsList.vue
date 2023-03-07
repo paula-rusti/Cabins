@@ -2,7 +2,7 @@
   <v-container class="my-2">
     <v-responsive>
       <v-row>
-        <v-col class="ma-2" cols="2">
+        <v-col class="ma-2 v-col-md-3 v-col-lg-2 v-col-xl-2" cols="3">
           <p class="text-h5">SEARCH</p>
           <filter-cabins @filterChanged="this.onFilterChanged"></filter-cabins>
           <v-card color="pink">
@@ -10,7 +10,7 @@
             <v-card-actions>
               <v-row>
                 <v-col class="py-0" cols="12">
-                  <v-text-field bg-color="white" class="ps-2" label="Country/City/Property name"
+                  <v-text-field bg-color="white" class="mx-auto" label="Country/City/Property name"
                                 prepend-inner-icon="mdi-magnify"></v-text-field>
                 </v-col>
                 <v-col class="py-0 pb-5" cols="12">
@@ -18,7 +18,7 @@
                               :clearable="true"
                               :enable-time-picker="false"
                               :min-date="new Date()"
-                              class="ps-2"
+                              class="mx-auto"
                               no-disabled-range
                               placeholder="Check In - Check Out"
                               range>
@@ -26,15 +26,19 @@
                   </Datepicker>
                 </v-col>
                 <v-col class="py-0" cols="12">
-                  <v-text-field bg-color="white" class="ps-2" label="Number of Guests" prepend-inner-icon="mdi-magnify">
+                  <v-text-field bg-color="white" class=" mx-auto" label="Number of Guests"
+                                prepend-inner-icon="mdi-magnify">
                   </v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-btn block class="bg-white py-0 mx-auto">SEARCH</v-btn>
                 </v-col>
               </v-row>
             </v-card-actions>
           </v-card>
           <v-card class="mt-5">
             <v-card-title>Filter By</v-card-title>
-            <v-list>
+            <v-list class="overflow-hidden">
               <v-list-subheader>AVAILABLE FACILITIES</v-list-subheader>
 
               <v-list-item
@@ -42,7 +46,7 @@
                 :key="i"
                 :value="item"
                 active-color="primary"
-                height="50px"
+                height="50"
                 rounded="xl"
               >
                 <template v-slot:prepend>
@@ -53,16 +57,17 @@
               <v-list-subheader class="mt-4">STAR RATING</v-list-subheader>
 
               <v-list-item
-                v-for="(item, i) in ['1 star', '2 stars', '3 stars', '1 star', '2 stars', '3 stars']"
+                v-for="(item, i) in ['1 star', '2 stars', '3 stars', '4 stars', '5 stars', 'Unrated']"
                 :key="i"
+                :ripple=false
                 :value="item"
                 active-color="primary"
-                height="50px"
+                height="50"
                 rounded="xl"
               >
-                <template v-slot:prepend>
-                  <v-checkbox :label="item"></v-checkbox>
-                </template>
+                <v-list-item-title>
+                  <v-checkbox :label=item></v-checkbox>
+                </v-list-item-title>
               </v-list-item>
             </v-list>
 
@@ -194,10 +199,7 @@ export default {
 </script>
 
 <style>
-.pad {
-  padding: 100px;
-}
-
+/* used by datepicker input */
 .dp__input {
   height: 54px;
 }

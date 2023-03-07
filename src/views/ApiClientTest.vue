@@ -28,7 +28,7 @@ export default {
   methods: {
     async onFetchCabins(params) {
       try {
-        let cabins = await ApiClient.fetchCabinsData(params)
+        let cabins = await ApiClient.fetchAllCabins(params)
         console.log("cabins are: ", cabins)
       } catch (e) {
         this.errorFetching = true

@@ -11,7 +11,7 @@ export const useCabinsStore = defineStore("cabins", {
   }),
   actions: {
     async fetchCabins() {
-      let finalRes = await ApiClient.fetchCabinsData({
+      let finalRes = await ApiClient.fetchAllCabins({
         page: this.currentPage,
         size: this.itemsPerPage,
         location: this.location_filter_list,
@@ -19,10 +19,11 @@ export const useCabinsStore = defineStore("cabins", {
 
       for (let item of finalRes.items) {
         item.photos = await ApiClient.fetchPhotosOfCabin(item.id);
-        if (item.photos.length !== 0) {
+        if (item.photos.length !== 0 && item.photos.length !== undefined) {
           item.src = `http://localhost:8000/photos/${item.photos[0].id}`;
         } else {
-          item.src = "";
+          item.src =
+            "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg";
         }
       }
       this.cabins = finalRes.items || [];
