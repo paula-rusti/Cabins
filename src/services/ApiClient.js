@@ -1,8 +1,13 @@
 const url = "http://localhost:8000";
 
 class ApiClient {
-  async fetchAllCabins(params) {
-    const route = "/cabins/all";
+  async fetchCabins(params, search = false) {
+    let route = null;
+    if (!search) {
+      route = "/cabins/all";
+    } else {
+      route = "/cabins/available";
+    }
     let fetchUrl = url + route + "?" + this.buildQueryString(params);
     try {
       const fetchResponse = await fetch(fetchUrl);

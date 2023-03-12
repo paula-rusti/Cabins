@@ -3,15 +3,19 @@
     <v-responsive>
       <v-row>
         <v-col class="ma-2 v-col-md-3 v-col-lg-2 v-col-xl-2" cols="3">
-          <p class="text-h5">SEARCH</p>
-          <filter-cabins @filterChanged="this.onFilterChanged"></filter-cabins>
           <v-card color="pink">
             <v-card-title class="pb-5">SEARCH</v-card-title>
             <v-card-actions>
               <v-row>
                 <v-col class="py-0" cols="12">
-                  <v-text-field bg-color="white" class="mx-auto" label="Country/City/Property name"
-                                prepend-inner-icon="mdi-magnify"></v-text-field>
+                  <v-text-field v-model="this.search.location_token"
+                                :rules="[this.search.rules.location_token]"
+                                bg-color="white"
+                                class="mx-auto"
+                                label="Country/City"
+                                prepend-inner-icon="mdi-magnify"
+                                @update:modelValue="this.debouncedUpdateLocationToken"
+                  ></v-text-field>
                 </v-col>
                 <v-col class="py-0 pb-5" cols="12">
                   <Datepicker v-model="this.search.dates"
@@ -24,14 +28,17 @@
                               range>
 
                   </Datepicker>
+                  <v-messages :active=true :messages="this.datepickerMessage"></v-messages>
                 </v-col>
                 <v-col class="py-0" cols="12">
-                  <v-text-field bg-color="white" class=" mx-auto" label="Number of Guests"
-                                prepend-inner-icon="mdi-magnify">
+                  <v-text-field :rules="[this.search.rules.capacity_token]" bg-color="white" class=" mx-auto"
+                                label="Number of Guests"
+                                prepend-inner-icon="mdi-magnify"
+                                @update:modelValue="this.debouncedUpdateCapacity">
                   </v-text-field>
                 </v-col>
                 <v-col cols="12">
-                  <v-btn block class="bg-white py-0 mx-auto">SEARCH</v-btn>
+                  <v-btn block class="bg-white py-0 mx-auto" @click="this.onSearchClicked">SEARCH</v-btn>
                 </v-col>
               </v-row>
             </v-card-actions>
@@ -131,14 +138,15 @@ import CabinCard from "@/components/CabinCard";
 import {mapActions, mapStores} from "pinia/dist/pinia";
 import {useCabinsStore} from "@/store/cabins";
 import PaginationControls from "@/components/PaginationControls";
-import FilterCabins from "@/components/FilterCabins";
 
+import _debounce from 'lodash/debounce'
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 
+
 export default {
   name: "CabinsList",
-  components: {FilterCabins, PaginationControls, CabinCard, Datepicker},
+  components: {PaginationControls, CabinCard, Datepicker},
   data() {
     return {
       loading: false,
@@ -149,8 +157,17 @@ export default {
         text: 'My timeout is set to 2000.',
         timeout: 2000,
       },
-      search: {
-        dates: {}
+      search: {   // add search parameters to store immediately after they are filled in
+        dates: undefined,
+        location_token: "",
+        capacity: 0,
+        rules: {
+          required: value => !!value || 'Required.',
+          capacity_token: value => Number(value) <= 100 || "Invalid number of guests.",
+          location_token: value => {
+            return /^[a-z]+$/i.test(value) || 'Invalid location.'
+          },
+        },
       }
     }
   },
@@ -158,24 +175,38 @@ export default {
     ...mapStores(useCabinsStore),
     isPaginationNextDisabled() {
       return this.cabinsStore.cabins.length === 0 || this.cabinsStore.currentPage > (this.totalCabins / this.itemsPerPage)
+    },
+    datepickerMessage() {
+      // Object.keys(this.search.dates).length === 0 && this.search.dates.constructor === Object
+      if (this.search.dates === undefined) {
+        return "Required!"
+      } else {
+        return "--------"
+      }
     }
   },
   methods: {
     // gives access to this.fetchCabins()
-    ...mapActions(useCabinsStore, ['fetchCabins', 'setPage', 'setItemsPerPage', 'getCabinsCount'
-      , 'setFilterList']),
+    ...mapActions(useCabinsStore, ['retrieveCabins', 'setPage', 'setItemsPerPage', 'getCabinsCount', 'setSearchParams']),
 
     onPageSwitched(direction, currentPage) {
       console.log('page switch ', direction, currentPage)
       this.setPage(currentPage)   // set page in the store
-      this.fetchCabinsData()      // use router function to get data from api
+      this.loadCabinsData()      // use router function to get data from api
       // update query param page from router
     },
-    async fetchCabinsData() {
+
+    onSearchClicked() {
+      console.log("search button clicked, search dates: ")
+      console.log(this.search.dates)
+      this.loadCabinsData(true)
+    },
+
+    async loadCabinsData(search = false) {
       // fetch all the cabins
       this.loading = true;
       try {
-        await this.fetchCabins()
+        await this.retrieveCabins(search)
       } catch (e) {
         this.snackbar.active = true
         this.snackbar.text = e.message
@@ -183,15 +214,30 @@ export default {
         this.loading = false;
       }
     },
-    async onFilterChanged(values) {
-      // fetch only the filtered cabins
-      this.setFilterList(values)
-      await this.fetchCabinsData()
-    }
+
+    // functions for updating location
+    updateLocationToken(value) {  // debounced function
+      if (/^[a-z]+$/i.test(value)) {
+        console.log("location updated by user is valid")
+        this.setSearchParams({location: value})
+      }
+    },
+
+    // functions for updating nr_of_guests
+    updateCapacity(value) {  // debounced function
+      if (value <= 100) {
+        console.log("capacity entered by the user is valid")
+        this.setSearchParams({capacity: value})
+      }
+    },
+
   },
   async mounted() {
+    this.debouncedUpdateLocationToken = _debounce(this.updateLocationToken, 600)
+    this.debouncedUpdateCapacity = _debounce(this.updateCapacity, 600)
+
     this.setItemsPerPage(this.itemsPerPage)
-    await this.fetchCabinsData()
+    await this.loadCabinsData()
     this.totalCabins = await this.getCabinsCount()
     console.log(this.totalCabins)
   }
@@ -202,5 +248,10 @@ export default {
 /* used by datepicker input */
 .dp__input {
   height: 54px;
+}
+
+.v-messages__message {
+  font-size: medium;
+  color: black;
 }
 </style>
